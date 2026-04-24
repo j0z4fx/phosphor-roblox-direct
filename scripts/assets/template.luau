@@ -1,7 +1,7 @@
 local Phosphor = {}
 
 local VERSION_STRING = VERSION
-local REMOTE_SPRITESHEET_BASE = "https://raw.githubusercontent.com/j0z4fx/phosphor-roblox-direct/refs/heads/main/spritesheets"
+local REMOTE_SPRITESHEET_BASE = "https://raw.githubusercontent.com/j0z4fx/phosphor-roblox-direct/refs/heads/master/spritesheets"
 
 local IS_GETCUSTOMASSET_BROKEN = false
 
