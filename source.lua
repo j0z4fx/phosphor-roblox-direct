@@ -14,7 +14,7 @@ if writefile and isfile and isfolder and makefolder and getcustomasset then
 		writefile("phosphor-icons/version.txt", VERSION_STRING)
 	end
 
-	local ShouldUpdate = readfile("phosphor-icons/version.txt") ~= "2026-04-24"_STRING
+	local ShouldUpdate = readfile("phosphor-icons/version.txt") ~= VERSION_STRING
 
 	if ShouldUpdate then
 		writefile("phosphor-icons/version.txt", VERSION_STRING)
