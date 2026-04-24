@@ -1,4 +1,4 @@
-﻿const fs = require("fs");
+const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 
@@ -7,10 +7,18 @@ const OUTPUT_DIR = path.join(__dirname, "build", "outputs", "formatted_icons");
 const WEIGHTS = ["thin", "light", "regular", "bold", "fill", "duotone"];
 
 function forceSvgWhite(svg) {
-  return svg
-    .replace(/fill="(?!none)[^"]*"/gi, 'fill="white"')
-    .replace(/stroke="(?!none)[^"]*"/gi, 'stroke="white"')
-    .replace(/<svg([^>]*)>/i, '<svg$1 fill="white" stroke="white">');
+  // First replace currentColor with white
+  let result = svg.replace(/currentColor/gi, "white");
+  
+  // Also strip any fill or stroke from the root svg tag and apply white, 
+  // without causing attribute redefinition.
+  result = result.replace(/<svg([^>]*)>/i, (match, p1) => {
+    // Remove existing fill and stroke attributes
+    let cleaned = p1.replace(/\b(fill|stroke)="[^"]*"/gi, "");
+    return `<svg${cleaned} fill="white" stroke="white">`;
+  });
+  
+  return result;
 }
 
 async function convertAll() {
