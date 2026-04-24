@@ -1,7 +1,7 @@
 local Phosphor = {}
 
 local VERSION_STRING = "2026-04-24"
-local REMOTE_SPRITESHEET_BASE = "https://raw.githubusercontent.com/j0z4fx/phosphor-roblox-direct/refs/heads/main/spritesheets"
+local REMOTE_SPRITESHEET_BASE = "https://raw.githubusercontent.com/j0z4fx/phosphor-roblox-direct/refs/heads/master/spritesheets"
 
 local IS_GETCUSTOMASSET_BROKEN = false
 
@@ -11,13 +11,13 @@ if writefile and isfile and isfolder and makefolder and getcustomasset then
 	end
 
 	if not isfile("phosphor-icons/version.txt") then
-		writefile("phosphor-icons/version.txt", "2026-04-24"_STRING)
+		writefile("phosphor-icons/version.txt", VERSION_STRING)
 	end
 
-	local ShouldUpdate = readfile("phosphor-icons/version.txt") ~= "2026-04-24"_STRING
+	local ShouldUpdate = readfile("phosphor-icons/version.txt") ~= VERSION_STRING
 
 	if ShouldUpdate then
-		writefile("phosphor-icons/version.txt", "2026-04-24"_STRING)
+		writefile("phosphor-icons/version.txt", VERSION_STRING)
 	end
 
 	for spritesheet = 1, 23 do
