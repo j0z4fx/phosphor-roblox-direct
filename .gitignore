@@ -1,0 +1,9 @@
+/Roblox
+/sUNC
+.env
+build/
+.tarmac-debug/
+
+node_modules/
+__pycache__/
+tarmac-manifest.toml
