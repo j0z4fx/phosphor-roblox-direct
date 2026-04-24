@@ -1,4 +1,4 @@
-"""
+﻿"""
 phosphor-roblox-direct: upload spritesheets and generate source.lua
 """
 import argparse
@@ -19,7 +19,7 @@ ROBLOX_CREATOR_ID = os.environ["ROBLOX_CREATOR_ID"]
 PHOSPHOR_WEIGHTS = ["thin", "light", "regular", "bold", "fill", "duotone"]
 OUTPUT_SIZE = 48
 
-# ── paths ──────────────────────────────────────────────────────────────────────
+# â”€â”€ paths â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 ROOT = Path(__file__).parent
 TARMAC_DEBUG_DIR = ROOT / ".tarmac-debug"
 SPRITESHEETS_DIR = ROOT / "spritesheets"
@@ -27,7 +27,7 @@ MAPPINGS_FILE = ROOT / "build" / "outputs" / "mappings.lua"
 TEMPLATE_FILE = ROOT / "scripts" / "assets" / "template.luau"
 SOURCE_FILE = ROOT / "source.lua"
 
-# ── build date ─────────────────────────────────────────────────────────────────
+# â”€â”€ build date â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 from datetime import date
 BUILD_VERSION = date.today().isoformat()
 
@@ -132,7 +132,7 @@ def lua_encode(value) -> str:
 
 
 def main():
-    # ── Step 1: Copy spritesheets from .tarmac-debug ───────────────────────────
+    # â”€â”€ Step 1: Copy spritesheets from .tarmac-debug â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if SPRITESHEETS_DIR.exists():
         shutil.rmtree(SPRITESHEETS_DIR)
     SPRITESHEETS_DIR.mkdir()
@@ -140,7 +140,7 @@ def main():
     spritesheet_files = sorted(TARMAC_DEBUG_DIR.iterdir())
     print(f"Found {len(spritesheet_files)} spritesheets to upload.")
 
-    # ── Step 2: Upload each spritesheet, collect real IDs ─────────────────────
+    # â”€â”€ Step 2: Upload each spritesheet, collect real IDs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     # Tarmac uses temporary local IDs (small integers like 1, 2, 3...)
     # We map temp_id -> real rbxassetid
     temp_to_real = {}  # e.g. {"rbxassetid://1": "rbxassetid://1234567890"}
@@ -160,13 +160,13 @@ def main():
         # Tarmac debug IDs are just the filename (e.g. "1", "2")
         temp_to_real[f"rbxassetid://{src.name}"] = real_id
 
-    # ── Step 3: Parse Tarmac mappings ─────────────────────────────────────────
+    # â”€â”€ Step 3: Parse Tarmac mappings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     print("\nParsing Tarmac mappings...")
     mappings_text = MAPPINGS_FILE.read_text(encoding="utf-8")
     tarmac_mappings = parse_mappings_lua(mappings_text)
     print(f"  {len(tarmac_mappings)} icon entries found.")
 
-    # ── Step 4: Build icon data tables ────────────────────────────────────────
+    # â”€â”€ Step 4: Build icon data tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     icon_names = []
     icon_name_to_index = {}
     weight_names = PHOSPHOR_WEIGHTS
@@ -218,10 +218,10 @@ def main():
     ]
     serialized = lua_encode(icon_data)
 
-    # ── Step 5: Read template and write source.lua ─────────────────────────────
+    # â”€â”€ Step 5: Read template and write source.lua â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     template = TEMPLATE_FILE.read_text(encoding="utf-8")
     source = template \
-        .replace("= VERSION", f'= "{BUILD_VERSION}"') \
+        .replace("__VERSION__", f'"{BUILD_VERSION}"') \
         .replace("DATA_SPRITESHEETS", str(num_spritesheets)) \
         .replace("DATA_ICON_MAPPINGS", serialized)
 
@@ -232,3 +232,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

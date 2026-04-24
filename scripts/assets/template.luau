@@ -1,6 +1,6 @@
-local Phosphor = {}
+﻿local Phosphor = {}
 
-local VERSION_STRING = VERSION
+local VERSION_STRING = __VERSION__
 local REMOTE_SPRITESHEET_BASE = "https://raw.githubusercontent.com/j0z4fx/phosphor-roblox-direct/refs/heads/master/spritesheets"
 
 local IS_GETCUSTOMASSET_BROKEN = false
@@ -90,3 +90,4 @@ function Phosphor.GetAsset(name: string, weight: string?)
 end
 
 return Phosphor
+
